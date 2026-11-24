@@ -1,10 +1,12 @@
-"""Worst AI Advice entry: one line of terrible advice, written to /output/entry.txt.
+"""Worst AI Advice entry.
 
-The line is deliberately bad advice in a cheerful assistant voice: charging a
-phone in a microwave is a real folk myth that would destroy the phone, which is
-exactly why it lands as a joke. The program keeps the text fixed so every run
-produces the same file, and it refuses to write anything longer than the
-competition's 140-character cap.
+One line of terrible advice, written to /output/entry.txt for the judge.
+
+The joke: a cheerful assistant voice confidently recommends charging a phone
+in a microwave. It is specific enough to follow, concrete enough to picture,
+and bad enough to laugh at -- the waves do not charge anything, they cook it.
+The text is fixed, so every run writes the same file, and the program refuses
+to emit anything longer than the competition's 140-character cap.
 """
 
 import os
@@ -18,13 +20,19 @@ MAX_CHARS = 140
 OUTPUT_PATH = "/output/entry.txt"
 
 
-def main() -> None:
-    text = ADVICE.strip()
-    if not text:
+def build_line() -> str:
+    line = ADVICE.strip()
+    if not line or line.isspace():
         raise ValueError("advice line is empty")
-    if len(text) > MAX_CHARS:
-        raise ValueError(f"advice line is {len(text)} chars, over the 140 cap")
+    if len(line) > MAX_CHARS:
+        raise ValueError(f"advice is {len(line)} chars, over the 140 cap")
+    return line
+
+
+def main() -> None:
+    text = build_line()
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
+    # No trailing newline: the gate counts every character of the file.
     with open(OUTPUT_PATH, "w", encoding="utf-8") as handle:
         handle.write(text)
 
